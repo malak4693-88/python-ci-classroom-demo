@@ -1,0 +1,32 @@
+
+name: SonarQube Technical Debt Analysis
+
+on:
+  push:
+    branches:
+      - technical-debt-experiment
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Analyze source code
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=malak4693-88
+            -Dsonar.projectKey=malak4693-88_python-ci-classroom-demo
+            -Dsonar.sources=price_calculator.py
+            -Dsonar.tests=tests
