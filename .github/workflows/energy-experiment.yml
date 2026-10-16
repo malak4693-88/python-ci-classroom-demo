@@ -68,9 +68,24 @@ jobs:
           task: get-measurement
           label: normal-tests
 
+
       - name: Run redundant tests
         if: inputs.mode == 'duplicate-tests'
-        run: python -m pytest -q
+        run: |
+          python -m pytest -q
+          python - <<'PY'
+          import hashlib
+          import time
+
+          end = time.monotonic() + 20
+          data = b"green-software-experiment"
+
+          while time.monotonic() < end:
+              data = hashlib.sha256(data).digest()
+
+          print("Redundant CPU workload completed")
+          PY
+
 
       - name: Measure redundant tests
         if: inputs.mode == 'duplicate-tests'
