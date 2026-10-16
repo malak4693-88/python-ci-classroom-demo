@@ -6,7 +6,7 @@ def main():
     start = time.perf_counter()
     checksum = 0.0
 
-    for i in range(1_000_000):
+    for i in range(50_000_000):
         result = calculate_total(
             unit_price=100.0,
             quantity=(i % 10) + 1,
