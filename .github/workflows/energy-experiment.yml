@@ -44,8 +44,23 @@ jobs:
           task: get-measurement
           label: setup
 
-      - name: Run normal tests
-        run: python -m pytest -q
+
+      - name: Run normal tests and workload
+        run: |
+          python -m pytest -q
+          python - <<'PY'
+          import hashlib
+          import time
+
+          end = time.monotonic() + 20
+          data = b"green-software-experiment"
+
+          while time.monotonic() < end:
+              data = hashlib.sha256(data).digest()
+
+          print("CPU workload completed")
+          PY
+
 
       - name: Measure normal tests
         uses: green-coding-solutions/eco-ci-energy-estimation@v5
