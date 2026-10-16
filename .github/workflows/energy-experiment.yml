@@ -45,21 +45,12 @@ jobs:
           label: setup
 
 
-      - name: Run normal tests and workload
+
+      - name: Run normal tests and benchmark
         run: |
           python -m pytest -q
-          python - <<'PY'
-          import hashlib
-          import time
+          python energy_benchmark.py
 
-          end = time.monotonic() + 20
-          data = b"green-software-experiment"
-
-          while time.monotonic() < end:
-              data = hashlib.sha256(data).digest()
-
-          print("CPU workload completed")
-          PY
 
 
       - name: Measure normal tests
@@ -69,30 +60,7 @@ jobs:
           label: normal-tests
 
 
-      - name: Run redundant tests
-        if: inputs.mode == 'duplicate-tests'
-        run: |
-          python -m pytest -q
-          python - <<'PY'
-          import hashlib
-          import time
 
-          end = time.monotonic() + 20
-          data = b"green-software-experiment"
-
-          while time.monotonic() < end:
-              data = hashlib.sha256(data).digest()
-
-          print("Redundant CPU workload completed")
-          PY
-
-
-      - name: Measure redundant tests
-        if: inputs.mode == 'duplicate-tests'
-        uses: green-coding-solutions/eco-ci-energy-estimation@v5
-        with:
-          task: get-measurement
-          label: redundant-tests
 
       - name: Show energy results
         uses: green-coding-solutions/eco-ci-energy-estimation@v5
