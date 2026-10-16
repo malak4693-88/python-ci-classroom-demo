@@ -24,9 +24,12 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
         with:
           args: >
             -Dsonar.organization=malak4693-88
             -Dsonar.projectKey=malak4693-88_python-ci-classroom-demo
             -Dsonar.sources=price_calculator.py
             -Dsonar.tests=tests
+            -Dsonar.python.version=3.13
+
