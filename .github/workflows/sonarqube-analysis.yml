@@ -2,12 +2,15 @@
 name: SonarQube Technical Debt Analysis
 
 
+
 on:
   push:
     branches:
       - technical-debt-experiment
       - branch-technical-debt-baseline
+      - branch-technical-debt-modified
   workflow_dispatch:
+
 
 
 permissions:
